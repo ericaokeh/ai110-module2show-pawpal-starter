@@ -65,3 +65,23 @@ If I had another iteration, I would add actual time-based scheduling (9:00 AM - 
 **c. Key takeaway**
 
 The most important thing I learned is that **the best algorithm isn't always the most sophisticated one** - it's the one that matches user needs and mental models. When analyzing the conflict detection algorithm, the "Pythonic" version was technically cleaner but harder to understand. Similarly, exact time-slot detection would be more precise but doesn't match how pet owners think about their day. Working with AI taught me to evaluate suggestions not just for correctness, but for appropriateness - asking "does this serve the user?" rather than just "does this work?" Good system design requires balancing technical elegance with human usability.
+
+---
+
+## 6. AI Strategy: VS Code Copilot Experience
+
+**a. Most effective Copilot features**
+
+**Inline code completion** was most valuable for implementing sorting logic and test cases. When writing `Task.__lt__()`, Copilot suggested the correct comparison logic after I typed the method signature. **Chat with #codebase** helped generate comprehensive test suites - I asked "What edge cases should I test for recurring tasks?" and got specific scenarios like zero-time tasks and monthly regeneration. **Generate tests** smart action created initial test structure, saving 30+ minutes of boilerplate writing. **Explain code** clarified Python idioms like `timedelta(days=1)` and lambda sorting.
+
+**b. Rejected or modified AI suggestion**
+
+Copilot suggested using `datetime.now()` for recurring task due dates, but I **rejected this in favor of `datetime.date.today()`**. The suggestion would work but adds unnecessary time precision (hours/minutes) when tasks only need day-level scheduling. My modification keeps the data model cleaner - dates are dates, not timestamps. I verified this by checking Task's `due_date` attribute should be `date` type, not `datetime`. This shows AI doesn't always understand domain requirements - "works" doesn't mean "appropriate for this context."
+
+**c. Separate chat sessions helped organization**
+
+Using **different chat sessions per phase prevented context contamination**. Phase 1 (UML/design) focused on architecture questions without implementation details cluttering the conversation. Phase 2 (testing) stayed focused on test strategies and edge cases without mixing in UI concerns. Phase 3 (UI integration) could reference backend methods without re-explaining the entire design. This workflow mirrors real software teams - design meetings, implementation sprints, and testing phases have different stakeholders and goals. Separate sessions = clearer thinking.
+
+**d. Being the "lead architect" with AI**
+
+The key insight: **AI is a powerful junior engineer, not a senior architect**. Copilot excels at pattern recognition (generating similar tests, completing repetitive code) but struggles with high-level decisions like "Should we use time periods or exact times?" I learned to use AI for **execution** (write boilerplate, generate tests, explain syntax) while keeping **strategic decisions** (what to build, which tradeoffs matter, user experience priorities) under human control. The best workflow: I design the architecture and API contracts, AI fills implementation details, I review for correctness and appropriateness. AI amplifies productivity but doesn't replace judgment.
